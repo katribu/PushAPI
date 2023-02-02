@@ -5,6 +5,9 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
+
+// need to implement database stuff in the server!!!!
+
 const PORT = 3333;
 
 app.get('/', (req, res) => {
