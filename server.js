@@ -6,6 +6,8 @@ const { getUsers} = require('./database')
 app.use(express.json())
 app.use(cors())
 
+const irgen = 'Irgen'
+
 
 // need to implement database stuff in the server!!!!
 
