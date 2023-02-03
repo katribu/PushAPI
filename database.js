@@ -1,14 +1,15 @@
-const {Pool} = require('pg') // class that we use from the pgAdmin database
+// Class that we use from the pgAdmin database
+const { Pool } = require('pg')
 
 const database = new Pool({
-    user:'postgres',
+    user: 'postgres',
     host: 'localhost',
-    database:'PushDB',
+    database: 'PushDB',
     password: 'Heltnyttpassord2020' || '100759094',
     port: 5432,
 })
 
-async function getUsers(){
+async function getUsers() {
     const result = await database.query(`
     SELECT 
         users.id,
@@ -21,5 +22,5 @@ async function getUsers(){
 }
 
 module.exports = {
-    getUsers
+    getUsers,
 }
