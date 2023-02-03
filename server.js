@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const app = express()
+const { getUsers} = require('./database')
 
 app.use(express.json())
 app.use(cors())
@@ -10,8 +11,9 @@ app.use(cors())
 
 const PORT = 3333;
 
-app.get('/', (req, res) => {
-    res.send('Hello World!')
+app.get('/users', async (req, res) => {
+    const users = await getUsers()
+    res.json(users)
   })
   
   app.listen(PORT, () => {
