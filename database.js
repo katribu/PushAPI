@@ -4,9 +4,10 @@ const database = new Pool({
     user:'postgres',
     host: 'localhost',
     database:'PushDB',
-    password: 'Heltnyttpassord2020' || '100759094',
+    password: '100759094',
     port: 5432,
 })
+// Irgen's pswd 'Heltnyttpassord2020' ||
 
 async function getUsers(){
     const result = await database.query(`
@@ -20,6 +21,18 @@ async function getUsers(){
     return result.rows
 }
 
+async function getUserByEmail(email){
+    const result = await database.query(`
+    SELECT *
+    FROM users
+    WHERE email = $1
+    `,[email])
+
+    //result.rows = [{id:1,name:'Donald Trump',email:'trump@aol.com',password:'1234'}]
+    return result.rows[0]
+}
+
 module.exports = {
-    getUsers
+    getUsers,
+    getUserByEmail
 }
