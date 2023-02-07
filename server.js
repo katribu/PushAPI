@@ -5,12 +5,14 @@ const jwt = require('jsonwebtoken')
 
 const { getUsers, getUserByEmail} = require('./database')
 
-app.use(express.json())
-app.use(cors())
+app.use(express.json());
+app.use(cors());
+
+const irgen = 'Irgen'
 
 
-const APP_SECRET = 'my-secret-key-1234'
-// code that the token has been encrypted as. Can set as an Env. variable to keep it secret.
+// need to implement database stuff in the server!!!!
+
 const PORT = 3333;
 
 // need to install npm pacakge dotenv for the backend server that is gitignored. 
@@ -20,13 +22,13 @@ const PORT = 3333;
 
 //get Users//
 app.get('/users', async (req, res) => {
-    const users = await getUsers()
-    res.json(users)
-  })
-  
-  app.listen(PORT, () => {
-    console.log(`Push app listening on port ${PORT}`)
-  })
+  const users = await getUsers()
+  res.json(users);
+});
+
+app.listen(PORT, () => {
+  console.log(`Push app listening on port ${PORT}`);
+});
 
 //Login
 app.post('/login', async (req,res)=>{

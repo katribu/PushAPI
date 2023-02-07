@@ -1,7 +1,8 @@
-const {Pool} = require('pg') // class that we use from the pgAdmin database
+// Class that we use from the pgAdmin database
+const { Pool } = require('pg')
 
 const database = new Pool({
-    user:'postgres',
+    user: 'postgres',
     host: 'localhost',
     database:'PushDB',
     password: '100759094',
@@ -9,7 +10,7 @@ const database = new Pool({
 })
 // Irgen's pswd 'Heltnyttpassord2020' ||
 
-async function getUsers(){
+async function getUsers() {
     const result = await database.query(`
     SELECT 
         users.id,
