@@ -8,7 +8,7 @@ const { getUsers, getUserByEmail} = require('./database')
 app.use(express.json());
 app.use(cors());
 
-const irgen = 'Irgen'
+const APP_SECRET = "This is our secret password 1234"
 
 
 // need to implement database stuff in the server!!!!
