@@ -5,7 +5,7 @@ const database = new Pool({
     user: 'postgres',
     host: 'localhost',
     database: 'PushDB',
-    password: '100759094',
+    password: 'Heltnyttpassord2020',
     port: 5432,
 })
 
@@ -34,7 +34,23 @@ async function getUserByEmail(email) {
     return result.rows[0]
 }
 
+async function createNewUser(name, email, password) {
+    const result = await database.query(`
+    INSERT INTO users 
+        (name, email, password)
+    VALUES 
+        ($1, $2, $3)
+    RETURNING 
+        *
+    `, [name, email, password]);
+
+    const newUser = result.rows[0]; 
+    return newUser; 
+}
+
+
 module.exports = {
     getUsers,
-    getUserByEmail
+    getUserByEmail, 
+    createNewUser
 }
