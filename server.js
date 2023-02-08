@@ -7,13 +7,11 @@ app.use(cors());
 
 // Need to implement database stuff in the server!
 
-const { getUsers, getUserByEmail, createNewUser } = require('./database')
+const { getUsers, getUserByEmail, createNewUser,getNotificationsByUsername } = require('./database')
 const APP_SECRET = "This is our secret password 1234"
 const PORT = 3333;
 
-
 // Need to install npm package dotenv for the backend server that is gitignored. 
-
 
 // Get users
 app.get('/users', async (req, res) => {
@@ -23,10 +21,10 @@ app.get('/users', async (req, res) => {
 
 
 app.post('/signup', async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, username } = req.body;
 
   try {
-    const newUser = await createNewUser(name,email, password)
+    const newUser = await createNewUser(name,email, password, username)
     res.json(`${newUser.name} have been created`)
   } catch(error) {
     res.status(401).send({error: error.message});
@@ -34,6 +32,17 @@ app.post('/signup', async (req, res) => {
   
 })
 
+//get user notifications by user's email
+//add a try catch in the case of no existing email
+app.get('/:username', async(req,res) =>{
+  const {username} = req.params;
+  try{
+    const userNotifications = await getNotificationsByUsername(username)
+    res.json(userNotifications)
+  }catch(error){
+    res.json({error:error.message})
+  }
+})
 
 
 // Login
