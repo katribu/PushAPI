@@ -3,7 +3,7 @@ CREATE TABLE users (
   name TEXT,
   email TEXT,
   password VARCHAR(15)
-);
+); 
 
 INSERT INTO users (name, email, password)
   VALUES
