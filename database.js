@@ -17,7 +17,8 @@ async function getUsers() {
     SELECT 
         users.id,
         users.name,
-        users.email
+        users.email,
+        users.username
     FROM
         users
     `)
@@ -49,12 +50,13 @@ async function createNewUser(name, email, password) {
     return newUser; 
 }
 
-async function getNotificationsByEmail(email){
+async function getNotificationsByUsername(username){
     const result = await database.query(`
     SELECT
     users.id,
     users.name,
     users.email,
+    users.username,
     users_notification_monitor.type,
     users_notification_monitor.data
     FROM 
@@ -62,8 +64,8 @@ async function getNotificationsByEmail(email){
     INNER JOIN users_notification_monitor ON
         users_notification_monitor.user_id = users.id
     WHERE
-        users.email = $1
-    `,[email]);
+        users.username = $1
+    `,[username]);
     return result.rows
 }
 
@@ -71,5 +73,5 @@ module.exports = {
     getUsers,
     getUserByEmail, 
     createNewUser,
-    getNotificationsByEmail
+    getNotificationsByUsername
 }

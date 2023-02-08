@@ -7,7 +7,7 @@ app.use(cors());
 
 // Need to implement database stuff in the server!
 
-const { getUsers, getUserByEmail, createNewUser,getNotificationsByEmail } = require('./database')
+const { getUsers, getUserByEmail, createNewUser,getNotificationsByUsername } = require('./database')
 const APP_SECRET = "This is our secret password 1234"
 const PORT = 3333;
 
@@ -34,10 +34,14 @@ app.post('/signup', async (req, res) => {
 
 //get user notifications by user's email
 //add a try catch in the case of no existing email
-app.get('/:email', async(req,res) =>{
-  const {email} = req.params;
-  const userNotifications = await getNotificationsByEmail(email)
-  res.json(userNotifications)
+app.get('/:username', async(req,res) =>{
+  const {username} = req.params;
+  try{
+    const userNotifications = await getNotificationsByUsername(username)
+    res.json(userNotifications)
+  }catch(error){
+    res.json({error:error.message})
+  }
 })
 
 
