@@ -1,16 +1,17 @@
 CREATE TABLE users (
   ID SERIAL PRIMARY KEY,
-  name TEXT,
-  email TEXT,
-  password VARCHAR(15)
+  name TEXT NOT NULL,
+  email TEXT UNIQUE NOT NULL,
+  username VARCHAR(15) NOT NULL UNIQUE,
+  password VARCHAR(15) NOT NULL
 );
 
-INSERT INTO users (name, email, password)
+INSERT INTO users (name, email, password,username)
   VALUES
-    ('Kat Burwash', 'katrinaburwash_17@hotmail.com', 'Kb1007#'),
-    ('Irgen Sorensen', 'irgen_w.s@hotmail.com', '007'),
-	  ('Shahin Hemat','shahinhemat@gmail.com', '98765'),
-    ('test', 'test@test.com', 'test');
+    ('Kat Burwash', 'katrinaburwash_17@hotmail.com', 'Kb1007#','katribu'),
+    ('Irgen Sorensen', 'irgen_w.s@hotmail.com', '007','irgen'),
+	  ('Shahin Hemat','shahinhemat@gmail.com', '98765','shahem'),
+    ('test', 'test@test.com', 'test','test');
 
 
 
