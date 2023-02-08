@@ -9,7 +9,8 @@ const database = new Pool({
     port: 5432,
 })
 
-// Irgen's pswd 'Heltnyttpassord2020' ||
+// Irgen's pswd 'Heltnyttpassord2020' 
+// Shahin's pswd: nedved12 
 
 async function getUsers() {
     const result = await database.query(`

@@ -11,9 +11,7 @@ const { getUsers, getUserByEmail, createNewUser,getNotificationsByEmail } = requ
 const APP_SECRET = "This is our secret password 1234"
 const PORT = 3333;
 
-
 // Need to install npm package dotenv for the backend server that is gitignored. 
-
 
 // Get users
 app.get('/users', async (req, res) => {
