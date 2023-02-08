@@ -48,9 +48,27 @@ async function createNewUser(name, email, password) {
     return newUser; 
 }
 
+async function getNotificationsByEmail(email){
+    const result = await database.query(`
+    SELECT
+    users.id,
+    users.name,
+    users.email,
+    users_notification_monitor.type,
+    users_notification_monitor.data
+    FROM 
+        users
+    INNER JOIN users_notification_monitor ON
+        users_notification_monitor.user_id = users.id
+    WHERE
+        users.email = $1
+    `,[username]);
+    return result.rows
+}
 
 module.exports = {
     getUsers,
     getUserByEmail, 
-    createNewUser
+    createNewUser,
+    getNotificationsByEmail
 }
