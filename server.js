@@ -35,6 +35,7 @@ app.post('/signup', async (req, res) => {
 })
 
 //get user notifications by user's email
+//add a try catch in the case of no existing email
 app.get('/:email', async(req,res) =>{
   const {email} = req.params;
   const userNotifications = await getNotificationsByEmail(email)

@@ -5,7 +5,7 @@ const database = new Pool({
     user: 'postgres',
     host: 'localhost',
     database: 'PushDB',
-    password: 'Heltnyttpassord2020',
+    password: '100759094',
     port: 5432,
 })
 
@@ -62,7 +62,7 @@ async function getNotificationsByEmail(email){
         users_notification_monitor.user_id = users.id
     WHERE
         users.email = $1
-    `,[username]);
+    `,[email]);
     return result.rows
 }
 
