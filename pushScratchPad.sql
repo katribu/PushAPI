@@ -9,7 +9,11 @@ INSERT INTO users (name, email, password)
   VALUES
     ('Kat Burwash', 'katrinaburwash_17@hotmail.com', 'Kb1007#'),
     ('Irgen Sorensen', 'irgen_w.s@hotmail.com', '007'),
-	('Shahin Hemat','shahinhemat@gmail.com', '98765');
+	  ('Shahin Hemat','shahinhemat@gmail.com', '98765'),
+    ('test', 'test@test.com', 'test');
+
+
+
 
 -- Temporary table........
 -- CREATE TABLE push-notifications (
