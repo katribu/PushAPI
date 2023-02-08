@@ -5,7 +5,6 @@ const jwt = require('jsonwebtoken')
 app.use(express.json());
 app.use(cors());
 
-// Need to implement database stuff in the server!
 
 const { getUsers, getUserByEmail, createNewUser,getNotificationsByUsername } = require('./database')
 const APP_SECRET = "This is our secret password 1234"
@@ -32,8 +31,7 @@ app.post('/signup', async (req, res) => {
   
 })
 
-//get user notifications by user's email
-//add a try catch in the case of no existing email
+//get user notifications by user's username
 app.get('/:username', async(req,res) =>{
   const {username} = req.params;
   try{
