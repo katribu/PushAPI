@@ -21,10 +21,10 @@ app.get('/users', async (req, res) => {
 
 
 app.post('/signup', async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, username } = req.body;
 
   try {
-    const newUser = await createNewUser(name,email, password)
+    const newUser = await createNewUser(name,email, password, username)
     res.json(`${newUser.name} have been created`)
   } catch(error) {
     res.status(401).send({error: error.message});

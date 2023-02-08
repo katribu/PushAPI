@@ -36,15 +36,15 @@ async function getUserByEmail(email) {
     return result.rows[0]
 }
 
-async function createNewUser(name, email, password) {
+async function createNewUser(name, email, password,username) {
     const result = await database.query(`
     INSERT INTO users 
-        (name, email, password)
+        (name, email, password, username)
     VALUES 
-        ($1, $2, $3)
+        ($1, $2, $3, $4)
     RETURNING 
         *
-    `, [name, email, password]);
+    `, [name, email, password,username]);
 
     const newUser = result.rows[0]; 
     return newUser; 
