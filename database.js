@@ -35,7 +35,41 @@ async function getUserByEmail(email) {
     return result.rows[0]
 }
 
+async function createNewUser(name, email, password) {
+    const result = await database.query(`
+    INSERT INTO users 
+        (name, email, password)
+    VALUES 
+        ($1, $2, $3)
+    RETURNING 
+        *
+    `, [name, email, password]);
+
+    const newUser = result.rows[0]; 
+    return newUser; 
+}
+
+async function getNotificationsByEmail(email){
+    const result = await database.query(`
+    SELECT
+    users.id,
+    users.name,
+    users.email,
+    users_notification_monitor.type,
+    users_notification_monitor.data
+    FROM 
+        users
+    INNER JOIN users_notification_monitor ON
+        users_notification_monitor.user_id = users.id
+    WHERE
+        users.email = $1
+    `,[username]);
+    return result.rows
+}
+
 module.exports = {
     getUsers,
-    getUserByEmail
+    getUserByEmail, 
+    createNewUser,
+    getNotificationsByEmail
 }

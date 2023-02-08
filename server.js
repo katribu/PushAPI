@@ -7,7 +7,7 @@ app.use(cors());
 
 // Need to implement database stuff in the server!
 
-const { getUsers, getUserByEmail } = require('./database')
+const { getUsers, getUserByEmail, createNewUser,getNotificationsByEmail } = require('./database')
 const APP_SECRET = "This is our secret password 1234"
 const PORT = 3333;
 
@@ -19,9 +19,26 @@ app.get('/users', async (req, res) => {
   res.json(users);
 });
 
-app.listen(PORT, () => {
-  console.log(`Push app listening on port ${PORT}`);
-});
+
+app.post('/signup', async (req, res) => {
+  const { name, email, password } = req.body;
+
+  try {
+    const newUser = await createNewUser(name,email, password)
+    res.json(`${newUser.name} have been created`)
+  } catch(error) {
+    res.status(401).send({error: error.message});
+  }
+  
+})
+
+//get user notifications by user's email
+app.get('/:email', async(req,res) =>{
+  const {email} = req.params;
+  const userNotifications = await getNotificationsByEmail(email)
+  res.json(userNotifications)
+})
+
 
 // Login
 app.post('/login', async (req, res) => {
@@ -64,3 +81,7 @@ app.get('/session', async (req, res) => {
     res.status(401).json({ error: 'Invalid Token' })
   }
 })
+
+app.listen(PORT, () => {
+  console.log(`Push app listening on port ${PORT}`);
+});
