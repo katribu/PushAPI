@@ -64,7 +64,8 @@ app.post('/login', async (req, res) => {
     const token = jwt.sign({
       id: user.id,
       email: user.email,
-      name: user.name
+      name: user.name,
+      username:user.username
     }, Buffer.from(APP_SECRET, 'base64'))
 
     res.json({ token })
