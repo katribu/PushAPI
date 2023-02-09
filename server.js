@@ -32,10 +32,11 @@ app.post('/signup', async (req, res) => {
 })
 
 //get user notifications by user's username
-app.get('/:username', async(req,res) =>{
-  const {username} = req.params;
+app.get('/notifications', async(req,res) =>{
+  const token = req.headers['x-token']
+  const payload = jwt.verify(token, Buffer.from(APP_SECRET, 'base64'))
   try{
-    const userNotifications = await getNotificationsByUsername(username)
+    const userNotifications = await getNotificationsByUsername(payload.username)
     res.json(userNotifications)
   }catch(error){
     res.json({error:error.message})
