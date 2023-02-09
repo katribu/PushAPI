@@ -70,9 +70,26 @@ async function getNotificationsByUsername(username){
     return result.rows
 }
 
+async function createNewRemembrall(type, time, lat, lng, message, user_id) {
+    const result = await database.query(`
+    INSERT INTO users_notification_monitor
+        (type, data, user_id)
+    VALUES 
+        ($1, $2, $3, $4, $5, $6)
+    RETURNING 
+        *
+    `, [type, time, lat, lng, message, user_id]);
+
+    const newRemembrall = result.rows[0]; 
+    return newRemembrall; 
+}
+
+
+
 module.exports = {
     getUsers,
     getUserByEmail, 
     createNewUser,
-    getNotificationsByUsername
+    getNotificationsByUsername, 
+    createNewRemembrall
 }

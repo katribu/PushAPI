@@ -6,7 +6,7 @@ app.use(express.json());
 app.use(cors());
 
 
-const { getUsers, getUserByEmail, createNewUser,getNotificationsByUsername } = require('./database')
+const { getUsers, getUserByEmail, createNewUser,getNotificationsByUsername, createNewRemembrall } = require('./database')
 const APP_SECRET = "This is our secret password 1234"
 const PORT = 3333;
 
@@ -73,6 +73,18 @@ app.post('/login', async (req, res) => {
     res.status(500).send({ error: error.message })
   }
 });
+
+//Create new remembrall
+app.post('/setremembrall', async (req, res) => {
+  const { type, time, lat, lng, message, user_id } = req.body;
+  try {
+    const newRemembrall = await createNewRemembrall(type, time, lat, lng, message, user_id)
+    res.json(`${newRemembrall}`)
+  } catch(error) {
+    res.status(401).send({error: error.message});
+  }
+})
+
 
 // Checking if the token is valid
 app.get('/session', async (req, res) => {
