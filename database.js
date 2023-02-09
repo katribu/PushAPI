@@ -5,7 +5,7 @@ const database = new Pool({
     user: 'postgres',
     host: 'localhost',
     database: 'PushDB',
-    password: '100759094',
+    password: 'Heltnyttpassord2020',
     port: 5432,
 })
 
@@ -75,10 +75,10 @@ async function createNewRemembrall(type, time, lat, lng, message, user_id) {
     INSERT INTO users_notification_monitor
         (type, data, user_id)
     VALUES 
-        ($1, $2, $3, $4, $5, $6)
+        ($1, $2, $3)
     RETURNING 
         *
-    `, [type, time, lat, lng, message, user_id]);
+    `, [type, {time, lat, lng, message}, user_id]);
 
     const newRemembrall = result.rows[0]; 
     return newRemembrall; 

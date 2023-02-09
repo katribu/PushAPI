@@ -80,7 +80,7 @@ app.post('/setremembrall', async (req, res) => {
   const { type, time, lat, lng, message, user_id } = req.body;
   try {
     const newRemembrall = await createNewRemembrall(type, time, lat, lng, message, user_id)
-    res.json(`${newRemembrall}`)
+    res.json(newRemembrall)
   } catch(error) {
     res.status(401).send({error: error.message});
   }
