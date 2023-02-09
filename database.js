@@ -5,12 +5,13 @@ const database = new Pool({
     user: 'postgres',
     host: 'localhost',
     database: 'PushDB',
-    password: '100759094',
+    password: 'Heltnyttpassord2020',
     port: 5432,
 })
 
 // Irgen's pswd 'Heltnyttpassord2020' 
 // Shahin's pswd: nedved12 
+// Katrinas' pswd: '100759094'
 
 async function getUsers() {
     const result = await database.query(`
