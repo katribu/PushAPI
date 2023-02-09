@@ -78,9 +78,12 @@ app.post('/login', async (req, res) => {
 
 //Create new remembrall
 app.post('/setremembrall', async (req, res) => {
-  const { type, time, lat, lng, message, user_id } = req.body;
+  const {type, data} = req.body;
+  const token = req.headers['x-token']
+  const payload = jwt.verify(token, Buffer.from(APP_SECRET, 'base64'))
+  const user_id = payload.id;
   try {
-    const newRemembrall = await createNewRemembrall(type, time, lat, lng, message, user_id)
+    const newRemembrall = await createNewRemembrall(type, data, user_id)
     res.json(newRemembrall)
   } catch(error) {
     res.status(401).send({error: error.message});
