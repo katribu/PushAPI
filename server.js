@@ -2,8 +2,10 @@ const express = require('express')
 const cors = require('cors')
 const app = express()
 const jwt = require('jsonwebtoken')
+const nodemailer = require('nodemailer');
 app.use(express.json());
 app.use(cors());
+
 
 
 const { getUsers, getUserByEmail, createNewUser,getNotificationsByUsername, createNewRemembrall } = require('./database')
@@ -11,6 +13,39 @@ const APP_SECRET = "This is our secret password 1234"
 const PORT = 3333;
 
 // Need to install npm package dotenv for the backend server that is gitignored. 
+
+
+//Creating an email sending function
+const transporter = nodemailer.createTransport({
+  service: 'hotmail',
+  auth: {
+    user: 'rememberall23@hotmail.com',
+    pass: 'Rememberall24'
+  }
+});
+
+
+//Setting the mailoptions
+var mailOptions = {
+  from: 'rememberall23@hotmail.com',
+  to: 'irgen_w.s@hotmail.com',
+  subject: 'Sending Email using Node.js',
+  text: 'That was easy!'
+};
+
+//Function for sending the mail. 
+transporter.sendMail(mailOptions, function(error, info){
+  if (error) {
+    console.log(error);
+  } else {
+    console.log('Email sent: ' + info.response);
+  }
+});
+
+
+
+
+
 
 // Get users
 app.get('/users', async (req, res) => {
