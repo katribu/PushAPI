@@ -5,7 +5,7 @@ const database = new Pool({
     user: 'postgres',
     host: 'localhost',
     database: 'PushDB',
-    password: 'Heltnyttpassord2020',
+    password: '100759094',
     port: 5432,
 })
 
