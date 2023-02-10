@@ -3,19 +3,18 @@ const cors = require('cors')
 const app = express()
 const jwt = require('jsonwebtoken')
 const nodemailer = require('nodemailer');
+
 app.use(express.json());
 app.use(cors());
 
 
-
-const { getUsers, getUserByEmail, createNewUser,getNotificationsByUsername, createNewRemembrall } = require('./database')
+const { getUsers, getUserByEmail, createNewUser, getNotificationsByUsername, createNewRemembrall } = require('./database')
 const APP_SECRET = "This is our secret password 1234"
 const PORT = 3333;
 
 // Need to install npm package dotenv for the backend server that is gitignored. 
 
-
-//Creating an email sending function
+// Creating an email sending function
 const transporter = nodemailer.createTransport({
   service: 'hotmail',
   auth: {
@@ -24,8 +23,7 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-
-//Setting the mailoptions
+// Setting the mailoptions
 var mailOptions = {
   from: 'rememberall23@hotmail.com',
   to: 'irgen_w.s@hotmail.com',
@@ -33,18 +31,14 @@ var mailOptions = {
   text: 'That was easy!'
 };
 
-//Function for sending the mail. 
-transporter.sendMail(mailOptions, function(error, info){
+// Function for sending the mail
+transporter.sendMail(mailOptions, function (error, info) {
   if (error) {
     console.log(error);
   } else {
     console.log('Email sent: ' + info.response);
   }
 });
-
-
-
-
 
 
 // Get users
@@ -58,23 +52,23 @@ app.post('/signup', async (req, res) => {
   const { name, email, password, username } = req.body;
 
   try {
-    const newUser = await createNewUser(name,email, password, username)
+    const newUser = await createNewUser(name, email, password, username)
     res.json(`${newUser.name} has been created`)
-  } catch(error) {
-    res.status(401).send({error: error.message});
+  } catch (error) {
+    res.status(401).send({ error: error.message });
   }
-  
+
 })
 
-//get user notifications by user's username
-app.get('/notifications', async(req,res) =>{
+// Get user notifications by user's username
+app.get('/notifications', async (req, res) => {
   const token = req.headers['x-token']
   const payload = jwt.verify(token, Buffer.from(APP_SECRET, 'base64'))
-  try{
+  try {
     const userNotifications = await getNotificationsByUsername(payload.username)
     res.json(userNotifications)
-  }catch(error){
-    res.json({error:error.message})
+  } catch (error) {
+    res.json({ error: error.message })
   }
 })
 
@@ -101,7 +95,7 @@ app.post('/login', async (req, res) => {
       id: user.id,
       email: user.email,
       name: user.name,
-      username:user.username
+      username: user.username
     }, Buffer.from(APP_SECRET, 'base64'))
 
     res.json({ token })
@@ -111,17 +105,17 @@ app.post('/login', async (req, res) => {
   }
 });
 
-//Create new remembrall
+// Create new remembrall
 app.post('/setremembrall', async (req, res) => {
-  const {type, data} = req.body;
+  const { type, data } = req.body;
   const token = req.headers['x-token']
   const payload = jwt.verify(token, Buffer.from(APP_SECRET, 'base64'))
   const user_id = payload.id;
   try {
     const newRemembrall = await createNewRemembrall(type, data, user_id)
     res.json(newRemembrall)
-  } catch(error) {
-    res.status(401).send({error: error.message});
+  } catch (error) {
+    res.status(401).send({ error: error.message });
   }
 })
 

@@ -5,7 +5,7 @@ const database = new Pool({
     user: 'postgres',
     host: 'localhost',
     database: 'PushDB',
-    password: '100759094',
+    password: 'nedved12',
     port: 5432,
 })
 
@@ -33,11 +33,10 @@ async function getUserByEmail(email) {
     WHERE email = $1
     `, [email])
 
-    //result.rows = [{id:1,name:'Donald Trump',email:'trump@aol.com',password:'1234'}]
     return result.rows[0]
 }
 
-async function createNewUser(name, email, password,username) {
+async function createNewUser(name, email, password, username) {
     const result = await database.query(`
     INSERT INTO users 
         (name, email, password, username)
@@ -45,13 +44,13 @@ async function createNewUser(name, email, password,username) {
         ($1, $2, $3, $4)
     RETURNING 
         *
-    `, [name, email, password,username]);
+    `, [name, email, password, username]);
 
-    const newUser = result.rows[0]; 
-    return newUser; 
+    const newUser = result.rows[0];
+    return newUser;
 }
 
-async function getNotificationsByUsername(username){
+async function getNotificationsByUsername(username) {
     const result = await database.query(`
     SELECT
     users.id,
@@ -66,7 +65,7 @@ async function getNotificationsByUsername(username){
         users_notification_monitor.user_id = users.id
     WHERE
         users.username = $1
-    `,[username]);
+    `, [username]);
     return result.rows
 }
 
@@ -80,16 +79,16 @@ async function createNewRemembrall(type, data, user_id) {
         *
     `, [type, data, user_id]);
 
-    const newRemembrall = result.rows[0]; 
-    return newRemembrall; 
+    const newRemembrall = result.rows[0];
+    return newRemembrall;
 }
 
 
 
 module.exports = {
     getUsers,
-    getUserByEmail, 
+    getUserByEmail,
     createNewUser,
-    getNotificationsByUsername, 
+    getNotificationsByUsername,
     createNewRemembrall
 }
