@@ -59,7 +59,7 @@ app.post('/signup', async (req, res) => {
 
   try {
     const newUser = await createNewUser(name,email, password, username)
-    res.json(`${newUser.name} have been created`)
+    res.json(`${newUser.name} has been created`)
   } catch(error) {
     res.status(401).send({error: error.message});
   }
