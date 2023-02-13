@@ -8,22 +8,22 @@ app.use(express.json());
 app.use(cors());
 
 
-const { getUsers, getUserByEmail, createNewUser, getNotificationsByUsername, createNewRemembrall } = require('./database')
+const { getUsers, getUserByEmail, createNewUser, getNotificationsByUsername, createNewRemembrall, deleteNotification } = require('./database')
 const APP_SECRET = "This is our secret password 1234"
 const PORT = 3333;
 
 // Need to install npm package dotenv for the backend server that is gitignored. 
 
 // Creating an email sending function
-const transporter = nodemailer.createTransport({
+/* const transporter = nodemailer.createTransport({
   service: 'hotmail',
   auth: {
     user: 'rememberall23@hotmail.com',
     pass: 'Rememberall24'
   }
-});
+}); */
 
-// Setting the mailoptions
+/* // Setting the mailoptions
 var mailOptions = {
   from: 'rememberall23@hotmail.com',
   to: 'irgen_w.s@hotmail.com',
@@ -38,7 +38,7 @@ transporter.sendMail(mailOptions, function (error, info) {
   } else {
     console.log('Email sent: ' + info.response);
   }
-});
+}); */
 
 
 // Get users
@@ -71,6 +71,17 @@ app.get('/notifications', async (req, res) => {
     res.json({ error: error.message })
   }
 })
+
+
+// Delete notification
+app.delete('/notifications', async function (req, res) {
+  const { id } = req.body;
+  await deleteNotification(id)
+  res.send(`Notification with id ${id} has been deleted`);
+  res.status(200);
+});
+
+
 
 
 // Login
