@@ -52,9 +52,13 @@ app.get('/notifications', async (req, res) => {
 // Delete notification
 app.delete('/notifications', async function (req, res) {
   const { id } = req.body;
-  await deleteNotification(id)
-  res.send(`Notification with id ${id} has been deleted`);
-  res.status(200);
+  try{
+    await deleteNotification(id);
+    res.status(200).json({message: 'notification was deleted'});
+  } catch (error) {
+    res.status(500).send({error: error.message});
+  }
+  
 });
 
 

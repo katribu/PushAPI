@@ -115,7 +115,7 @@ async function createNewRemembrall(type, data, user_id) {
 
 // Delete notification
 async function deleteNotification(id) {
-    const deleteResult = await database.query(`
+    const result = await database.query(`
     DELETE FROM
     users_notification_monitor
     WHERE
@@ -123,6 +123,7 @@ async function deleteNotification(id) {
     RETURNING *
     `, [id]);
 
+    const deleteResult = result.rows;
     return deleteResult;
 }
 
