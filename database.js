@@ -5,7 +5,7 @@ const database = new Pool({
     user: 'postgres',
     host: 'localhost',
     database: 'PushDB',
-    password: '100759094',
+    password: 'Heltnyttpassord2020',
     port: 5432,
 })
 
@@ -83,6 +83,60 @@ async function createNewRemembrall(type, data, user_id) {
     return newRemembrall;
 }
 
+// Delete notification
+async function deleteNotification(id) {
+    const result = await database.query(`
+    DELETE FROM
+    users_notification_monitor
+    WHERE
+    users_notification_monitor.id = $1
+    RETURNING *
+    `, [id]);
+
+    const deleteResult = result.rows;
+    return deleteResult;
+}
+
+async function getNotificationInfoByID(id) {
+    const result = await database.query(`
+    SELECT *
+    FROM users_notification_monitor
+    WHERE id = $1
+    `, [id])
+
+    const notificationResult = result.rows[0];
+    return notificationResult;
+};
+
+async function registerLastNotified(id, timeStamp) {
+
+    const lastNotifiedValue = JSON.stringify(timeStamp);
+    const result = await database.query(`
+        UPDATE users_notification_monitor
+        SET data = jsonb_set(data, '{lastNotified}', '${lastNotifiedValue}')
+        WHERE id = $1
+
+    `, [id]);
+
+    const updatedDataResult = result.rows[0];
+    return updatedDataResult;
+}
+
+
+
+module.exports = {
+    getUsers,
+    getUserByEmail,
+    createNewUser,
+    getNotificationsByUsername,
+    createNewRemembrall,
+    deleteNotification,
+    getNotificationInfoByID, 
+    registerLastNotified
+}
+
+
+// Unused code: 
 /* async function deleteNotification(username, id) {
     const result = await database.query(`
     SELECT
@@ -112,26 +166,3 @@ async function createNewRemembrall(type, data, user_id) {
 
     return 'Deleted successfully'
 } */
-
-// Delete notification
-async function deleteNotification(id) {
-    const result = await database.query(`
-    DELETE FROM
-    users_notification_monitor
-    WHERE
-    users_notification_monitor.id = $1
-    RETURNING *
-    `, [id]);
-
-    const deleteResult = result.rows;
-    return deleteResult;
-}
-
-module.exports = {
-    getUsers,
-    getUserByEmail,
-    createNewUser,
-    getNotificationsByUsername,
-    createNewRemembrall,
-    deleteNotification
-}

@@ -8,13 +8,12 @@ app.use(express.json());
 app.use(cors());
 
 
-const { getUsers, getUserByEmail, createNewUser, getNotificationsByUsername, createNewRemembrall, deleteNotification } = require('./database');
+const { getUsers, getUserByEmail, createNewUser, getNotificationsByUsername, createNewRemembrall, deleteNotification, registerLastNotified, getNotificationInfoByID } = require('./database');
 const { mailFunction } = require('./mailFunction');
 const APP_SECRET = "This is our secret password 1234"
 const PORT = 3333;
 
 // Need to install npm package dotenv for the backend server that is gitignored. 
-
 
 
 // Get users
@@ -33,7 +32,6 @@ app.post('/signup', async (req, res) => {
   } catch (error) {
     res.status(401).send({ error: error.message });
   }
-
 })
 
 // Get user notifications by user's username
@@ -111,17 +109,36 @@ app.post('/setremembrall', async (req, res) => {
 })
 
 app.post('/createmail', async (req, res) => {
-  const { email, subject, message } = req.body;
+  const { id } = req.body;
 
-/*   const user = await getUserByEmail(email, subject, mes)
-  if (!user) {
+  const notificationInfo = await getNotificationInfoByID(id);
+  const {chosenFriend, subject, message } = notificationInfo.data
+
+ /*  const user = await getUserByEmail(email, subject, mes) */
+
+  if (!id) {
     res.status(401).send({ error: 'Email Not Found' })
     return;
-  } */
+  } 
 
-  const createdMail = await mailFunction(email, subject, message)
+  const createdMail = await mailFunction(chosenFriend, subject, message)
   res.json(createdMail)
+})
 
+app.patch('/lastnotified', async (req, res) => {
+  const { id } = req.body;
+
+/*   let timeStamp = new Date().toLocaleTimeString('nor', { hour: '2-digit', minute: '2-digit' }).slice(0, 5) */
+  const currentDate = new Date()
+  const timeStamp = new Date(currentDate.getTime() + (60 * 60 * 1000)).toLocaleTimeString('nor', { hour: '2-digit', minute: '2-digit' });
+
+  try {
+     await registerLastNotified(id, timeStamp)
+     const lastNotifiedUpdate = await getNotificationInfoByID(id) 
+     res.json(lastNotifiedUpdate)
+  } catch (error) {
+    res.status(401).json({ error: error.message })
+  }
 })
 
 
