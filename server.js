@@ -125,10 +125,6 @@ app.post('/createmail', async (req, res) => {
 app.patch('/lastnotified', async (req, res) => {
   const { id } = req.body;
 
-/*   let timeStamp = new Date().toLocaleTimeString('nor', { hour: '2-digit', minute: '2-digit' }).slice(0, 5) */
- /*  const currentDate = new Date()
-  const timeStamp = new Date(currentDate.getTime() + (60 * 60 * 1000)).toLocaleTimeString('nor', { hour: '2-digit', minute: '2-digit' }); */
-
   const timeStamp = new Date().getTime()
 
   try {
