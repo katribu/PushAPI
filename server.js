@@ -52,8 +52,6 @@ app.delete('/notifications', async function (req, res) {
 });
 
 
-
-
 // POST request to database: login to app, and save webtoken to localstorage
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
@@ -101,6 +99,8 @@ app.post('/setremembrall', async (req, res) => {
   }
 })
 
+
+// POST request to database: creating an e-mail
 app.post('/createmail', async (req, res) => {
   const { id } = req.body;
 
@@ -120,6 +120,8 @@ app.post('/createmail', async (req, res) => {
 }
 })
 
+
+// PATCH request to database
 app.patch('/lastnotified', async (req, res) => {
   const { id } = req.body;
 

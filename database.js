@@ -1,17 +1,30 @@
 // Class that we use from the pgAdmin database
 const { Pool } = require('pg')
 
+const POSTGRES_URL = process.env.POSTGRES_URL || 'postgresql://postgres:100759094@localhost:5432/PushDB'
+
+const database = new Pool({
+    connectionString: POSTGRES_URL
+})
+
+
+
+
 // Irgen's pswd 'Heltnyttpassord2020' 
 // Shahin's pswd: nedved12 
 // Katrinas' pswd: '100759094'
-const database = new Pool({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'PushDB',
-    password: 'Heltnyttpassord2020',
-    port: 5432,
-})
+// const database = new Pool({
+//     user: 'postgres',
+//     host: 'localhost',
+//     database: 'PushDB',
+//     password: '100759094',
+//     port: 5432,
+// })
 
+// internal: postgres://remembralldb_user:
+// KxS5jWyV7GscWdArmY4wn4kBjcVtht0C@
+// dpg-cfn31virrk0eqltqqqi0-a/remembralldb
+// external: postgres://remembralldb_user:KxS5jWyV7GscWdArmY4wn4kBjcVtht0C@dpg-cfn31virrk0eqltqqqi0-a.frankfurt-postgres.render.com/remembralldb
 
 
 // Get a single user matched by email

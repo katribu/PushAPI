@@ -12,8 +12,7 @@ INSERT INTO users (name, email, password,username)
   VALUES
     ('Kat Burwash', 'katrinaburwash_17@hotmail.com', 'Kb1007#','katribu'),
     ('Irgen Sorensen', 'irgen_w.s@hotmail.com', '007','irgen'),
-	  ('Shahin Hemat','shahinhemat@gmail.com', '98765','shahem'),
-    ('test', 'test@test.com', 'test','test');
+	  ('Shahin Hemat','shahinhemat@gmail.com', '98765','shahem');
 
 CREATE TABLE users_notification_monitor (
 id SERIAL PRIMARY KEY,

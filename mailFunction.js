@@ -12,6 +12,7 @@ const transporter = nodemailer.createTransport({
     }
   });
   
+
   // Setting the mailoptions
   var mailOptions = {
     from: 'rememberall23@hotmail.com',
@@ -20,6 +21,7 @@ const transporter = nodemailer.createTransport({
     text: `${message}`
   };
   
+
   // Function for sending the mail
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
@@ -29,6 +31,7 @@ const transporter = nodemailer.createTransport({
     }
   });
 }; 
+
 
 module.exports = {
     mailFunction
