@@ -120,7 +120,6 @@ async function registerLastNotified(id, timeStamp) {
 
 
 module.exports = {
-    getUsers,
     getUserByEmail,
     createNewUser,
     getNotificationsByUsername,

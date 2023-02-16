@@ -104,10 +104,9 @@ app.post('/setremembrall', async (req, res) => {
 app.post('/createmail', async (req, res) => {
   const { id } = req.body;
 
+  try {
   const notificationInfo = await getNotificationInfoByID(id);
-  const {chosenFriend, subject, message } = notificationInfo.data
-
- /*  const user = await getUserByEmail(email, subject, mes) */
+  const {chosenFriend, subject, message } = notificationInfo.data;
 
   if (!id) {
     res.status(401).send({ error: 'Email Not Found' })
@@ -115,15 +114,20 @@ app.post('/createmail', async (req, res) => {
   } 
 
   const createdMail = await mailFunction(chosenFriend, subject, message)
-  res.json(createdMail)
+  res.json(createdMail);
+} catch (error) {
+  res.status(401).json({ error: error.message })
+}
 })
 
 app.patch('/lastnotified', async (req, res) => {
   const { id } = req.body;
 
 /*   let timeStamp = new Date().toLocaleTimeString('nor', { hour: '2-digit', minute: '2-digit' }).slice(0, 5) */
-  const currentDate = new Date()
-  const timeStamp = new Date(currentDate.getTime() + (60 * 60 * 1000)).toLocaleTimeString('nor', { hour: '2-digit', minute: '2-digit' });
+ /*  const currentDate = new Date()
+  const timeStamp = new Date(currentDate.getTime() + (60 * 60 * 1000)).toLocaleTimeString('nor', { hour: '2-digit', minute: '2-digit' }); */
+
+  const timeStamp = new Date().getTime()
 
   try {
      await registerLastNotified(id, timeStamp)
