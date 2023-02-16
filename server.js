@@ -8,22 +8,14 @@ app.use(express.json());
 app.use(cors());
 
 
-const { getUsers, getUserByEmail, createNewUser, getNotificationsByUsername, createNewRemembrall, deleteNotification } = require('./database');
+// Declared variables
+const { getUserByEmail, createNewUser, getNotificationsByUsername, createNewRemembrall, deleteNotification } = require('./database');
 const { mailFunction } = require('./mailFunction');
 const APP_SECRET = "This is our secret password 1234"
 const PORT = 3333;
 
-// Need to install npm package dotenv for the backend server that is gitignored. 
 
-
-
-// Get users
-app.get('/users', async (req, res) => {
-  const users = await getUsers()
-  res.json(users);
-});
-
-
+// POST request to database: creating a new user, saved to database
 app.post('/signup', async (req, res) => {
   const { name, email, password, username } = req.body;
 
@@ -36,7 +28,8 @@ app.post('/signup', async (req, res) => {
 
 })
 
-// Get user notifications by user's username
+
+// GET request to database: fetch all user notifications matched by username
 app.get('/notifications', async (req, res) => {
   const token = req.headers['x-token']
   const payload = jwt.verify(token, Buffer.from(APP_SECRET, 'base64'))
@@ -49,7 +42,7 @@ app.get('/notifications', async (req, res) => {
 })
 
 
-// Delete notification
+// DELETE request to database: deleting notification matched by id from database
 app.delete('/notifications', async function (req, res) {
   const { id } = req.body;
   try{
@@ -58,13 +51,12 @@ app.delete('/notifications', async function (req, res) {
   } catch (error) {
     res.status(500).send({error: error.message});
   }
-  
 });
 
 
 
 
-// Login
+// POST request to database: login to app, and save webtoken to localstorage
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
@@ -80,8 +72,8 @@ app.post('/login', async (req, res) => {
       return;
     }
 
-    // First paramater in sign is payload, which can be a string, or object with different properties.
-    // Buffer.from encodes the secret password/string in a format called "base64"
+    // First paramater in jwt.sign is the payload, which can be a string, or object with different properties.
+    // Buffer.from encodes the secret password/string 
     const token = jwt.sign({
       id: user.id,
       email: user.email,
@@ -89,14 +81,15 @@ app.post('/login', async (req, res) => {
       username: user.username
     }, Buffer.from(APP_SECRET, 'base64'))
 
-    res.json({ token })
+    res.json({ token });
 
   } catch (error) {
     res.status(500).send({ error: error.message })
   }
 });
 
-// Create new remembrall
+
+// POST request to database: verify user(by webtoken) and save user's Remembr'all in database
 app.post('/setremembrall', async (req, res) => {
   const { type, data } = req.body;
   const token = req.headers['x-token']
@@ -125,7 +118,7 @@ app.post('/createmail', async (req, res) => {
 })
 
 
-// Checking if the token is valid
+// GET request to database: check if webtoken is valid
 app.get('/session', async (req, res) => {
   const token = req.headers['x-token']
   try {
@@ -136,6 +129,8 @@ app.get('/session', async (req, res) => {
   }
 })
 
+
+// Running the server
 app.listen(PORT, () => {
   console.log(`Push app listening on port ${PORT}`);
 });

@@ -1,31 +1,20 @@
 // Class that we use from the pgAdmin database
 const { Pool } = require('pg')
 
-const database = new Pool({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'PushDB',
-    password: '100759094',
-    port: 5432,
-})
 
 // Irgen's pswd 'Heltnyttpassord2020' 
 // Shahin's pswd: nedved12 
 // Katrinas' pswd: '100759094'
+const database = new Pool({
+    user: 'postgres',
+    host: 'localhost',
+    database: 'PushDB',
+    password: 'nedved12',
+    port: 5432,
+})
 
-async function getUsers() {
-    const result = await database.query(`
-    SELECT 
-        users.id,
-        users.name,
-        users.email,
-        users.username
-    FROM
-        users
-    `)
-    return result.rows
-}
 
+// Get a single user matched by email
 async function getUserByEmail(email) {
     const result = await database.query(`
     SELECT *
@@ -36,6 +25,8 @@ async function getUserByEmail(email) {
     return result.rows[0]
 }
 
+
+// Create a new user
 async function createNewUser(name, email, password, username) {
     const result = await database.query(`
     INSERT INTO users 
@@ -50,6 +41,8 @@ async function createNewUser(name, email, password, username) {
     return newUser;
 }
 
+
+// Get all the notifications for one user matched by username
 async function getNotificationsByUsername(username) {
     const result = await database.query(`
     SELECT
@@ -69,6 +62,8 @@ async function getNotificationsByUsername(username) {
     return result.rows
 }
 
+
+// Create a new Remembr'all 
 async function createNewRemembrall(type, data, user_id) {
     const result = await database.query(`
     INSERT INTO users_notification_monitor
@@ -83,37 +78,8 @@ async function createNewRemembrall(type, data, user_id) {
     return newRemembrall;
 }
 
-/* async function deleteNotification(username, id) {
-    const result = await database.query(`
-    SELECT
-    users.id, 
-    users.username,
-	users_notification_monitor.data,
-	users_notification_monitor.user_id,
-	users_notification_monitor.id
-    FROM 
-        users
-    JOIN users_notification_monitor ON
-        users_notification_monitor.user_id = users.id
-    WHERE
-        users.username = $1
-    RETURNING *
-     `, [username]);
-     
-    const userNotifications = result.rows;
 
-    const deleteResult = await database.query(`
-    DELETE FROM
-    users_notification_monitor
-    WHERE
-    users_notification_monitor.id = $2 && user_id = $1
-    RETURNING *
-    `, [userNotifications.user_id, id]);
-
-    return 'Deleted successfully'
-} */
-
-// Delete notification
+// Delete a single Remembr'all matched by id
 async function deleteNotification(id) {
     const result = await database.query(`
     DELETE FROM
@@ -127,11 +93,33 @@ async function deleteNotification(id) {
     return deleteResult;
 }
 
+
 module.exports = {
-    getUsers,
     getUserByEmail,
     createNewUser,
     getNotificationsByUsername,
     createNewRemembrall,
     deleteNotification
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
