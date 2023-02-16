@@ -52,8 +52,6 @@ app.delete('/notifications', async function (req, res) {
 });
 
 
-
-
 // POST request to database: login to app, and save webtoken to localstorage
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
@@ -101,13 +99,13 @@ app.post('/setremembrall', async (req, res) => {
   }
 })
 
+
+// POST request to database: creating an e-mail
 app.post('/createmail', async (req, res) => {
   const { id } = req.body;
 
   const notificationInfo = await getNotificationInfoByID(id);
   const {chosenFriend, subject, message } = notificationInfo.data
-
- /*  const user = await getUserByEmail(email, subject, mes) */
 
   if (!id) {
     res.status(401).send({ error: 'Email Not Found' })
@@ -118,6 +116,8 @@ app.post('/createmail', async (req, res) => {
   res.json(createdMail)
 })
 
+
+// PATCH request to database
 app.patch('/lastnotified', async (req, res) => {
   const { id } = req.body;
 
