@@ -31,3 +31,6 @@ VALUES ('location',
 		}'::jsonb,
 	   2)
 
+
+-- link to the render deploy website
+-- https://remembrallfrontend.onrender.com
