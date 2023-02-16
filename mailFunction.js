@@ -1,7 +1,6 @@
 const nodemailer = require('nodemailer');
 
 
-
 function mailFunction( email, subject, message) {
 
 // Creating an email sending function
@@ -29,7 +28,6 @@ const transporter = nodemailer.createTransport({
       console.log('Email sent: ' + info.response);
     }
   });
-
 }; 
 
 module.exports = {

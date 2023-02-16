@@ -1,6 +1,9 @@
 // Class that we use from the pgAdmin database
 const { Pool } = require('pg')
 
+// Irgen's pswd 'Heltnyttpassord2020' 
+// Shahin's pswd: nedved12 
+// Katrinas' pswd: '100759094'
 const database = new Pool({
     user: 'postgres',
     host: 'localhost',
@@ -9,23 +12,9 @@ const database = new Pool({
     port: 5432,
 })
 
-// Irgen's pswd 'Heltnyttpassord2020' 
-// Shahin's pswd: nedved12 
-// Katrinas' pswd: '100759094'
 
-async function getUsers() {
-    const result = await database.query(`
-    SELECT 
-        users.id,
-        users.name,
-        users.email,
-        users.username
-    FROM
-        users
-    `)
-    return result.rows
-}
 
+// Get a single user matched by email
 async function getUserByEmail(email) {
     const result = await database.query(`
     SELECT *
@@ -36,6 +25,8 @@ async function getUserByEmail(email) {
     return result.rows[0]
 }
 
+
+// Create a new user
 async function createNewUser(name, email, password, username) {
     const result = await database.query(`
     INSERT INTO users 
@@ -50,6 +41,8 @@ async function createNewUser(name, email, password, username) {
     return newUser;
 }
 
+
+// Get all the notifications for one user matched by username
 async function getNotificationsByUsername(username) {
     const result = await database.query(`
     SELECT
@@ -69,6 +62,8 @@ async function getNotificationsByUsername(username) {
     return result.rows
 }
 
+
+// Create a new Remembr'all 
 async function createNewRemembrall(type, data, user_id) {
     const result = await database.query(`
     INSERT INTO users_notification_monitor

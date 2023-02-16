@@ -1,3 +1,5 @@
+-- The code to intialize our two main tables --
+
 CREATE TABLE users (
   ID SERIAL PRIMARY KEY,
   name TEXT NOT NULL,
@@ -13,11 +15,7 @@ INSERT INTO users (name, email, password,username)
 	  ('Shahin Hemat','shahinhemat@gmail.com', '98765','shahem'),
     ('test', 'test@test.com', 'test','test');
 
-
-
-
-
-create table users_notification_monitor (
+CREATE TABLE users_notification_monitor (
 id SERIAL PRIMARY KEY,
 type TEXT,
 data JSONB,
@@ -33,3 +31,4 @@ VALUES ('location',
 		"lng":"10.74709874232724"
 		}'::jsonb,
 	   2)
+
