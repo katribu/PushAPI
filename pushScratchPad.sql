@@ -20,7 +20,7 @@ type TEXT,
 data JSONB,
 user_id INTEGER,
 FOREIGN KEY (user_id) REFERENCES users (id)
-)
+);
 
 INSERT INTO users_notification_monitor (type,data,user_id)
 VALUES ('location', 
@@ -29,7 +29,7 @@ VALUES ('location',
 		"lat":"59.913952748612104",
 		"lng":"10.74709874232724"
 		}'::jsonb,
-	   2)
+	   2);
 
 
 -- link to the render deploy website

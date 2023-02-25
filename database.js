@@ -21,11 +21,6 @@ const database = new Pool({
 //     port: 5432,
 // })
 
-// internal: postgres://remembralldb_user:
-// KxS5jWyV7GscWdArmY4wn4kBjcVtht0C@
-// dpg-cfn31virrk0eqltqqqi0-a/remembralldb
-// external: postgres://remembralldb_user:KxS5jWyV7GscWdArmY4wn4kBjcVtht0C@dpg-cfn31virrk0eqltqqqi0-a.frankfurt-postgres.render.com/remembralldb
-
 
 // Get a single user matched by email
 async function getUserByEmail(email) {
