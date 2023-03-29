@@ -8,7 +8,7 @@ app.use(express.json());
 app.use(cors());
 
 
-const { getUserByEmail, createNewUser, getNotificationsByUsername, createNewRemembrall, deleteNotification, registerLastNotified, getNotificationInfoByID } = require('./database');
+const { getUserByEmail, createNewUser, getNotificationsByUsername, createNewRemembrall, deleteNotification, registerLastNotified, getNotificationInfoByID, updateNotification } = require('./database');
 const { mailFunction } = require('./mailFunction');
 const APP_SECRET = "This is our secret password 1234"
 const PORT = 3333;
@@ -133,6 +133,18 @@ app.patch('/lastnotified', async (req, res) => {
      res.json(lastNotifiedUpdate)
   } catch (error) {
     res.status(401).json({ error: error.message })
+  }
+})
+
+//PATCH request to update notification by id
+app.patch('/update/:id', async (req,res) => {
+  const {id} = req.params;
+  const {message,time,date} = req.body
+  try {
+    await updateNotification(id,message,time,date)
+    res.json({newUpdate:`You have updated notification ${id}`})
+  }catch(error){
+    res.status(401).json({error: error.message})
   }
 })
 

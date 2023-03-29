@@ -125,7 +125,24 @@ async function registerLastNotified(id, timeStamp) {
     return updatedDataResult;
 }
 
-
+async function updateNotification(id, value, time,date){
+    const newValue = JSON.stringify(value)
+    const newTime = JSON.stringify(time)
+    const newDate = JSON.stringify(date)
+    const result = await database.query(`
+    UPDATE users_notification_monitor
+    SET data = data
+        || '{"message" : ${newValue}}' 
+        || '{"time" : ${newTime}}'
+        || '{"date" : ${newDate}}'
+    WHERE id = $1;
+    `,[id]);
+    const updatedNotification = result.rows[0];
+    return updatedNotification;
+}
+// UPDATE users_notification_monitor
+// SET data = jsonb_set(data, '{message}', '${newValue}')
+// WHERE id = $1;
 
 module.exports = {
     getUserByEmail,
@@ -134,7 +151,8 @@ module.exports = {
     createNewRemembrall,
     deleteNotification,
     getNotificationInfoByID, 
-    registerLastNotified
+    registerLastNotified,
+    updateNotification
 }
 
 
